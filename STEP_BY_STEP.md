@@ -542,7 +542,22 @@ Pytest:
 
 There is always more we can do to enhance our Django development experience locally. What we have here is more than enough to start. Now let's switch to setting up a NuxtJS application in our project.
 
+
+
+
+### Working with VSCode
+
+A quick note about working with VSCode, docker and Python/Django. I typically install pip dependencies twice: once in the docker container that I use in the application during development, and once in the virtual environment that I created for the project `(dj-nuxt)`. Install project dependencies in `(dj-nuxt)` provides all of the Python integration in VSCode: `black`, autocompletion, etc.
+
 ## NuxtJS Project Initialization
+
+Here's a high-leve overview of what we will do in this section:
+
+1. Generate a NuxtJS project using `create-nuxt-app`
+1. Create some backend API resources to play use with our Nuxt SSR app
+1. Create corresponding pages and components in our Nuxt app that will help us first list blog posts and display individual blog posts.
+1. Configure NGINX in local development to resolve CORS issues.
+1. Create authentication components in Vue.
 
 Let's set up a NuxtJS project in a top-level `nuxt` folder.
 
@@ -559,13 +574,11 @@ I'm going to follow along with the Official NuxtJS documentation:
 
 We can do this with the following command:
 
-I call my frontend apps `frontend` in most of my projects, feel free to call this whatever you want:
-
 ```
 npx create-nuxt-app frontend
 ```
 
-I selected the following options:
+I call my frontend apps `frontend` in most of my projects, feel free to call this whatever you want. I selected the following options in the interactive menu:
 
 ```
 create-nuxt-app v3.4.0
@@ -590,6 +603,8 @@ Notice that we selected `Git` in `Version control system: Git`. We should delete
 rm -rf frontend/.git
 ```
 
+We are using a mono-repo approach here; frontend, backend and all other project code lives in the same git repo. Selecting the `Git` option gives us the correct `.gitignore` file (I think).
+
 Now run the following commands:
 
 ```
@@ -597,28 +612,89 @@ cd frontend
 yarn dev
 ```
 
-Now we are ready to start connecting our Django and Nuxt applications. One of my first goals is to figure out how to setup Django session authentication with our Nuxt app. It should be similar to how things work with a regular Vue app. I mostly work with Quasar Framework and Material UI. I added TailwindCSS as I have also worked with that Framework for building UIs.
+This starts the Nuxt application in development mode. Now we are ready to start connecting our Django and Nuxt applications. One of my first goals is to figure out how to setup Django session authentication with our Nuxt app.
+
+> This seems to work correctly *almost* out of the box. We will touch on the main issue shortly (which, of course, is CORS) and how we can resolve it.
+
+It should be similar to how things work with a regular Vue app.
+
+I mostly work with Quasar Framework and Material UI. I added TailwindCSS as I have also worked with that Framework for building UIs.
 
 One of my first goals is to better understand `asyncData` in Nuxt applications and how it interacts with Django.
 
-I *think* what happens is that
+I *think* what happens is that:
 
 1. A request is sent to https://oursite.com
 1. The NuxtJS Node server processes the request
-1. In `asyncData`, we make requests to Django for any content that must be used to Render the response from the NuxtJS Node server.
-1. We can make additional calls to the Django backend as needed in the regular Vue lifecycle hooks like `mounted` or `created`. This still may be the best place to do Django authentication
+1. In `asyncData`, we make requests to Django for any content that must be used to render the response (HTML) from the NuxtJS Node server.
+1. We can make additional calls to the Django backend as needed in the regular Vue lifecycle hooks like `mounted` or `created`. I think this is the best place to do Django authentication.
 
-I will probably want to use NGINX as I have in other projects to serve as a reverse proxy. This way I can have all incoming requests handled by NGINX, and I can send requests for `/api/*` and `/admin/*` to Django and all other requests to the NuxtJS node server that is doing our Server Side Rendering (SSR).
+> I will probably want to use NGINX as I have in other projects to serve as a reverse proxy. This way I can have all incoming requests handled by NGINX, and I can send requests for `/api/*` and `/admin/*` to Django and all other requests to the NuxtJS node server that is doing our Server Side Rendering (SSR). This should resolve the CORS issue, too.
 
 Here are some objectives we can start with for setting up our Nuxt project:
 
-1. pick a theme/layout from [https://tailwindcomponents.com/components/Layouts](https://tailwindcomponents.com/components/Layouts)
-1. Scaffold a site design, setup a Login page that we can use for testing authentication
-1. Setup some CRUD views in Nuxt and a Posts model in Django that we can use for trying out Nuxt features
-1. Apply some permissions for the CRUD model:
+[x] Setup some CRUD views in Nuxt
+[x] Set up List and Detail views for the Posts model in Django that we can use for trying out Nuxt SSR features
+[x] Apply some permissions for the CRUD model:
+[] pick a theme/layout from [https://tailwindcomponents.com/components/Layouts](https://tailwindcomponents.com/components/Layouts)
+[] Scaffold a site design, setup a Login page that we can use for testing authentication
 
-- Anyone can view all public posts
-- Users can create their own posts
-- Users can edit and delete their own posts
+We can try to focus on the meta part of the pages for our posts. So we can include images, descriptions, titles in the meta tags and Open Graph (og) tags for post pages.
 
-We can try to focus on the meta part of the pages for our posts. So we can include images, descriptions, titles in the meta tags and Open Graph tags for post pages.
+### Create a `blog` Django app
+
+```
+(dj-nuxt)$ cd backend && django-admin startapp blog && mv blog/ apps/blog/
+```
+
+Let's create a `BaseModel` model in the `core` app first to provide the following fields that we might reuse for other models:
+
+- `created_on`
+- `modified_on`
+- `created_by`
+- `modified_by`
+
+On our `Post` model, add the following fields:
+
+
+```py
+    title = models.CharField(max_length=200)
+    body = models.CharField(max_length=10_000)
+```
+
+Let's create the following:
+
+- Serializer for Posts
+- `ModelViewSet` for Posts
+- Router for Posts
+- Admin for Posts
+
+These are all pretty straightforward; I won't write the code for these here, please reference the files `blog/{admin,serializers,urls,views}.py` to see how these are set up.
+
+We also need to set up DRF settings in `settings/base.py`:
+
+```py
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+```
+
+
+## Some interesting errors I encountered
+
+> Converting circular structure to JSON --> starting at object with constructor 'ClientRequest' | property 'socket' -> object with constructor 'Socket' --- property '_httpMessage' closes the circle
+
+This was caused by having `$axios.get` in `asyncData`. The correct syntax is `$axios.$get`.
+
+## Questions I have
+
+- [ ] Can the `head` property access `asyncData`? I'm pretty sure the answer is yes.
+- [ ] How do I setup Nuxt SSR with NGINX as a reverse proxt in development? Is it that same as with a regular Vue app? I think it probably is.
+- [ ] Why exactly does the initial request return successfully, but `<nuxt-link>`s fail with CORS issues? It probably comes down to differences in how Node makes requests and how the browser makes requests. When `<nuxt-link>`s are clicked, I think the Nuxt app functions as an SPA and doesn't make new requests to the Node.js server to render HTML responses on the server.
