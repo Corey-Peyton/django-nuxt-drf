@@ -559,8 +559,10 @@ Here's a high-leve overview of what we will do in this section:
 [x] Configure NGINX in local development to resolve CORS issues.
 [x] Generate fake blog posts with faker
 [ ] Create authentication components in Vue.
-[x] Add 404 page for Nuxt
+[x] Add 404 page for Nuxt (`layouts/error.vue`)
+[x] Add date formatting filter via plugin
 [ ] Add pagination to Post list
+[ ] Add a form for creating new blog posts
 
 Let's set up a NuxtJS project in a top-level `nuxt` folder.
 
