@@ -756,8 +756,27 @@ export default {
   // other configs
 }
 ```
+And we also need to change the address that `$axios` uses to make requests to the backend service.
 
-And we also need to change the address that `$axios` uses to make requests to `localhost`.
+Nuxt provides settings for `publicRuntimeConfig` and `privateRuntimeConfig`. We need to configure axios settings for `browserBaseURL` in `publicRuntimeConfig` and `baseURL` in `privateRunTimeConfig`.
+
+The following works:
+
+```
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost',
+    },
+  },
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL || 'http://backend:8000',
+    },
+  },
+```
+
+> If we don't set these values and just set `http://localhost` as the axios `baseURL`, the initial page load would fail to load data, because the Nuxt SSR Node process running in a docker containre can't resolve `localhost`.
+
 
 ## Some interesting errors I encountered
 

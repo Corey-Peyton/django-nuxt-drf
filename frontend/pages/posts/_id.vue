@@ -22,7 +22,7 @@ export default {
     error,
     $axios,
   }) {
-    const post = await $axios.$get(`http://localhost/api/posts/${params.id}/`)
+    const post = await $axios.$get(`/api/posts/${params.id}/`)
 
     return { post }
   },

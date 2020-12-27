@@ -14,7 +14,7 @@ export default {
   async asyncData({ $axios }) {
     let posts, error
     try {
-      posts = await $axios.$get(`http://localhost/api/posts/`)
+      posts = await $axios.$get(`/api/posts/`)
     } catch (err) {
       error = err
       // eslint-disable-next-line no-console

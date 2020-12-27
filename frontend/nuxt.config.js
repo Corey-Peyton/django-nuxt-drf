@@ -1,4 +1,19 @@
 export default {
+  env: {
+    // fallback value
+    baseUrl: process.env.BASE_URL,
+  },
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost',
+    },
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL || 'http://backend:8000',
+    },
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'frontend',
