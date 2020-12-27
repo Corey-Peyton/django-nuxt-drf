@@ -564,3 +564,48 @@ I call my frontend apps `frontend` in most of my projects, feel free to call thi
 ```
 npx create-nuxt-app frontend
 ```
+
+I selected the following options:
+
+```
+create-nuxt-app v3.4.0
+✨  Generating Nuxt.js project in frontend
+? Project name: frontend
+? Programming language: JavaScript
+? Package manager: Yarn
+? UI framework: Tailwind CSS
+? Nuxt.js modules: Axios
+? Linting tools: ESLint, Prettier
+? Testing framework: Jest
+? Rendering mode: Universal (SSR / SSG)
+? Deployment target: Server (Node.js hosting)
+? Development tools: jsconfig.json (Recommended for VS Code if you're not using typescript)
+? Continuous integration: None
+? Version control system: Git
+```
+
+Notice that we selected `Git` in `Version control system: Git`. We should delete the `.git` folder inside the generated `frontend` folder:
+
+```
+rm -rf frontend/.git
+```
+
+Now run the following commands:
+
+```
+cd frontend
+yarn dev
+```
+
+Now we are ready to start connecting our Django and Nuxt applications. One of my first goals is to figure out how to setup Django session authentication with our Nuxt app. It should be similar to how things work with a regular Vue app. I mostly work with Quasar Framework and Material UI. I added TailwindCSS as I have also worked with that Framework for building UIs.
+
+One of my first goals is to better understand `asyncData` in Nuxt applications and how it interacts with Django.
+
+I *think* what happens is that
+
+1. A request is sent to https://oursite.com
+1. The NuxtJS Node server processes the request
+1. In `asyncData`, we make requests to Django for any content that must be used to Render the response from the NuxtJS Node server.
+1. We can make additional calls to the Django backend as needed in the regular Vue lifecycle hooks like `mounted` or `created`. This still may be the best place to do Django authentication
+
+I will probably want to use NGINX as I have in other projects to serve as a reverse proxy. This way I can have all incoming requests handled by NGINX, and I can send requests for `/api/*` and `/admin/*` to Django and all other requests to the NuxtJS node server that is doing our Server Side Rendering (SSR).
