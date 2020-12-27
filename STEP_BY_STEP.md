@@ -609,3 +609,16 @@ I *think* what happens is that
 1. We can make additional calls to the Django backend as needed in the regular Vue lifecycle hooks like `mounted` or `created`. This still may be the best place to do Django authentication
 
 I will probably want to use NGINX as I have in other projects to serve as a reverse proxy. This way I can have all incoming requests handled by NGINX, and I can send requests for `/api/*` and `/admin/*` to Django and all other requests to the NuxtJS node server that is doing our Server Side Rendering (SSR).
+
+Here are some objectives we can start with for setting up our Nuxt project:
+
+1. pick a theme/layout from [https://tailwindcomponents.com/components/Layouts](https://tailwindcomponents.com/components/Layouts)
+1. Scaffold a site design, setup a Login page that we can use for testing authentication
+1. Setup some CRUD views in Nuxt and a Posts model in Django that we can use for trying out Nuxt features
+1. Apply some permissions for the CRUD model:
+
+- Anyone can view all public posts
+- Users can create their own posts
+- Users can edit and delete their own posts
+
+We can try to focus on the meta part of the pages for our posts. So we can include images, descriptions, titles in the meta tags and Open Graph tags for post pages.
