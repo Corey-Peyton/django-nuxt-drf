@@ -557,9 +557,10 @@ Here's a high-leve overview of what we will do in this section:
 [x] Create some backend API resources to play use with our Nuxt SSR app
 [x] Create corresponding pages and components in our Nuxt app that will help us first list blog posts and display individual blog posts.
 [x] Configure NGINX in local development to resolve CORS issues.
-[ ] Generate fake blog posts with faker
+[x] Generate fake blog posts with faker
 [ ] Create authentication components in Vue.
 [x] Add 404 page for Nuxt
+[ ] Add pagination to Post list
 
 Let's set up a NuxtJS project in a top-level `nuxt` folder.
 
