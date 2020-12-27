@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-if="error" class="my-4">
+  <div class="my-4">
+    <div v-if="error">
       <div class="text-red text-center">Unable to load posts</div>
     </div>
     <div v-else>
@@ -14,7 +14,7 @@ export default {
   async asyncData({ $axios }) {
     let posts, error
     try {
-      posts = await $axios.$get(`http://localhost:8000/api/posts/`)
+      posts = await $axios.$get(`http://localhost/api/posts/`)
     } catch (err) {
       error = err
       // eslint-disable-next-line no-console

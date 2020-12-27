@@ -41,6 +41,35 @@ services:
     depends_on:
       - postgres
 
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    volumes:
+      - "./frontend:/app/"
+      - "/app/node_modules"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+    networks:
+      - main
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: dev/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./nginx/dev/dev.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - main
+
 volumes:
   pg-data:
 

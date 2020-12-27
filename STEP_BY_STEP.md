@@ -558,6 +558,7 @@ Here's a high-leve overview of what we will do in this section:
 1. Create corresponding pages and components in our Nuxt app that will help us first list blog posts and display individual blog posts.
 1. Configure NGINX in local development to resolve CORS issues.
 1. Create authentication components in Vue.
+1. Add 404 page for Nuxt
 
 Let's set up a NuxtJS project in a top-level `nuxt` folder.
 
@@ -686,6 +687,77 @@ REST_FRAMEWORK = {
 }
 ```
 
+### Add NGINX to local development setup in order to resolve CORS issues
+
+Instead of making requests to `localhost:3000` and then making API requests to `localhost:8000` from our NuxtJS SSR application, we can use `localhost` (port 80) for both of the requests by adding NGINX.
+
+Requests for `/admin/*` and `/api/*` will be sent to the Django backend and all other request will be handled by the Nuxt application.
+
+For local development, we need a `dev.conf` NGINX configuration file and a Dockerfile for NGINX. We can put these in an NGINX folder in the root of our project.
+
+```
+mkdir -p nginx/dev && touch nginx/dev/{dev.conf,Dockerfile}
+```
+
+We will also add a Dockerfile for Nuxt so that we can easily proxy NGINX requests to that container.
+
+> Technically we don't need to run Nuxt in a container, but it should make things easier by bringing up the entire project with one `docker-compose` command. If this doesn't work or causes any SSR-specific bugs, we can try another way, but I think this should work similar to how other Vue projects of mine have been running in containers.
+
+We also need to add `frontend` and `nginx` to `docker-compose.yml`.
+
+**Important**: you need to use `.dockerignore` when building the frontend Docker container. If you don't, what essentially happens is that you makea POST request to the docker daemon where the data contains a serialized version of `node_modules`, which can cause the docker CLI to hand. To fix this, add the following `.dockerignore` file to ``frontend`:
+
+
+```
+.dockerignore
+```
+
+If everything works, you should see Nuxt start in docker:
+
+```
+frontend    |
+frontend    |                                      :-:
+frontend    |                                    .==-+:
+frontend    |                                   .==. :+- .-=-
+frontend    |                                  .==.   :==++-+=.
+frontend    |                                 :==.     -**: :+=.
+frontend    |                                :+-      :*+++. .++.
+frontend    |                               :+-      -*= .++: .=+.
+frontend    |                              -+:      =*-   .+*: .=+:
+frontend    |                             -+:     .=*-     .=*-  =+:
+frontend    |                           .==:     .+*:        -*-  -+-
+frontend    |                          .=+:.....:+*-.........:=*=..=*-
+frontend    |                          .-=------=++============++====:
+frontend    |
+frontend    |                           Thanks for installing nuxtjs
+frontend    |                  Please consider donating to our open collective
+frontend    |                         to help us maintain this package.
+frontend    |
+frontend    |                             Number of contributors: 0
+frontend    |                               Number of backers: 395
+frontend    |                               Annual budget: $74,387
+frontend    |                              Current balance: $53,172
+frontend    |
+frontend    |                  Donate: https://opencollective.com/nuxtjs/donate
+frontend    |
+````
+
+
+We will also need to make these changes to `nuxt.config.js`:
+
+[https://nuxtjs.org/faq/host-port/#configure-in-nuxtconfigjs](https://nuxtjs.org/faq/host-port/#configure-in-nuxtconfigjs):
+
+```
+export default {
+  server: {
+    port: 3000, // default: 3000
+    host: '0.0.0.0' // default: localhost
+  }
+  // other configs
+}
+```
+
+And we also need to change the address that `$axios` uses to make requests to `localhost`.
 
 ## Some interesting errors I encountered
 

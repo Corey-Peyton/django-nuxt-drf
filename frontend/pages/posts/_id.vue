@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-4">
     <div class="p-8 bg-gray-300 mx-4">
       <div class="text-2xl">{{ post.title }}</div>
       <div>{{ post.body }}</div>
@@ -22,9 +22,7 @@ export default {
     error,
     $axios,
   }) {
-    const post = await $axios.$get(
-      `http://localhost:8000/api/posts/${params.id}/`
-    )
+    const post = await $axios.$get(`http://localhost/api/posts/${params.id}/`)
 
     return { post }
   },

@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div class="bg-gray-300">oij</div>
+    <div class="bg-gray-300">
+      <div class="mx-auto text-center py-8 text-2xl">
+        Django - NuxtJS Project
+      </div>
+    </div>
   </div>
 </template>
 
