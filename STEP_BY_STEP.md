@@ -543,3 +543,24 @@ Pytest:
 There is always more we can do to enhance our Django development experience locally. What we have here is more than enough to start. Now let's switch to setting up a NuxtJS application in our project.
 
 ## NuxtJS Project Initialization
+
+Let's set up a NuxtJS project in a top-level `nuxt` folder.
+
+First, check to make sure that you have access to a recent version of `npm`:
+
+```
+$ node -v
+v15.0.1
+```
+
+I'm going to follow along with the Official NuxtJS documentation:
+
+[https://nuxtjs.org/docs/2.x/get-started/installation](https://nuxtjs.org/docs/2.x/get-started/installation)
+
+We can do this with the following command:
+
+I call my frontend apps `frontend` in most of my projects, feel free to call this whatever you want:
+
+```
+npx create-nuxt-app frontend
+```
