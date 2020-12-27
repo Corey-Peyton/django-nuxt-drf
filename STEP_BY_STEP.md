@@ -698,3 +698,5 @@ This was caused by having `$axios.get` in `asyncData`. The correct syntax is `$a
 - [ ] Can the `head` property access `asyncData`? I'm pretty sure the answer is yes.
 - [ ] How do I setup Nuxt SSR with NGINX as a reverse proxt in development? Is it that same as with a regular Vue app? I think it probably is.
 - [ ] Why exactly does the initial request return successfully, but `<nuxt-link>`s fail with CORS issues? It probably comes down to differences in how Node makes requests and how the browser makes requests. When `<nuxt-link>`s are clicked, I think the Nuxt app functions as an SPA and doesn't make new requests to the Node.js server to render HTML responses on the server.
+- [ ] What's the best practice for async/await and .then/.catch? **try/catch blocks** seems like the best way: https://javascript.info/async-await
+- [ ]
