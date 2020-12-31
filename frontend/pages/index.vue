@@ -4,6 +4,11 @@
       <div class="mx-auto text-center py-8 text-2xl">
         Django - NuxtJS Project
       </div>
+      <div>
+        <pre
+          >{{ $store.getters['user/getAccountStatus'] }}
+        </pre>
+      </div>
     </div>
   </div>
 </template>

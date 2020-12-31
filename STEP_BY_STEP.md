@@ -783,6 +783,16 @@ The following works:
 > If we don't set these values and just set `http://localhost` as the axios `baseURL`, the initial page load would fail to load data, because the Nuxt SSR Node process running in a docker containre can't resolve `localhost`.
 
 
+## Authentication
+
+- [x] Create Login Form
+- [x] Create auth store module
+- [x] Create backend auth routes (login, logout, set-cookie)
+- [x] setup nuxtServerInit action to check user auth on each server request (page load)
+- [x] Figure out how to send csrf token with Nuxt axios module (middleware?)
+- [x] Create axios plugin to send CSRF token (https://axios.nuxtjs.org/extend#adding-interceptors)
+
+
 ## Some interesting errors I encountered
 
 > Converting circular structure to JSON --> starting at object with constructor 'ClientRequest' | property 'socket' -> object with constructor 'Socket' --- property '_httpMessage' closes the circle

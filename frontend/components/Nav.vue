@@ -18,7 +18,10 @@
 
       <v-toolbar-title>Django + Nuxt.js Starer Application</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-switch v-model="$vuetify.theme.dark" inset></v-switch>
+      <v-switch v-model="$vuetify.theme.dark" hide-details inset></v-switch>
+      <v-spacer></v-spacer>
+      <div>Logout ({{ $store.getters['auth/getAuthenticated'] }})</div>
+      <v-btn @click="$store.dispatch('auth/logout')">Logout</v-btn>
     </v-app-bar>
   </div>
 </template>
@@ -32,6 +35,7 @@ export default {
         { title: 'Home', icon: 'mdi-view-dashboard', to: '/' },
         { title: 'Posts', icon: 'mdi-image', to: '/posts' },
         { title: 'About', icon: 'mdi-help-box', to: '/about' },
+        { title: 'Login', icon: 'mdi-key', to: '/login' },
       ],
     }
   },

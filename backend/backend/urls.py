@@ -21,6 +21,7 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('apps.blog.urls')),
+    path('api/', include('apps.accounts.urls')),
 ]
 
 if settings.DEBUG:
@@ -28,7 +29,12 @@ if settings.DEBUG:
 
     urlpatterns = (
         urlpatterns
-        + [path("__debug__/", include(debug_toolbar.urls),)]
+        + [
+            path(
+                "__debug__/",
+                include(debug_toolbar.urls),
+            )
+        ]
         + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
         + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     )
