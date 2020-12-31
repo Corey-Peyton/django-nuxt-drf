@@ -1,27 +1,57 @@
 <template>
-  <div class="my-4">
-    <div v-if="error">
-      <div class="text-red text-center">Unable to load posts</div>
+  <div class="my-4 mx-2">
+    <div>
+      <div class="my-2">
+        <v-btn color="primary">New Post</v-btn>
+      </div>
+
+      <v-text-field
+        outlined
+        v-model="search"
+        placeholder="Search posts"
+      ></v-text-field>
     </div>
-    <div v-else>
-      <post-preview v-for="(post, i) in posts.results" :key="i" :post="post" />
+    <div>
+      <pagination
+        :length="Math.ceil(count / 10)"
+        :page-number="currentPage"
+        @set-page="setPage"
+      />
+      <post-preview v-for="(post, i) in posts" :key="i" :post="post" />
+      <pagination
+        :length="Math.ceil(count / 10)"
+        :page-number="currentPage"
+        @set-page="setPage"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  async asyncData({ $axios }) {
-    let posts, error
-    try {
-      posts = await $axios.$get(`/api/posts/`)
-    } catch (err) {
-      error = err
-      // eslint-disable-next-line no-console
-      console.log(err)
+  async asyncData({ store, $axios, query }) {
+    if (query !== {}) {
+      store.commit('posts/SET_PARAMS', query)
     }
-
-    return { posts, error }
+    await store.dispatch('posts/fetchData')
+  },
+  computed: {
+    ...mapState('posts', ['posts', 'count', 'search']),
+    currentPage: {
+      get() {
+        return this.$store.getters['posts/getCurrentPage']
+      },
+      set(v) {
+        this.$store.dispatch('posts/setPage', v)
+      },
+    },
+  },
+  methods: {
+    setPage(v) {
+      this.$router.push({ query: { ...this.$router.query, page: v } })
+      this.$store.dispatch('posts/setPage', v)
+    },
   },
 }
 </script>

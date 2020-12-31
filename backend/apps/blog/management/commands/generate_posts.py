@@ -9,6 +9,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print("Generating fake posts")
-        for _ in range(20):
+        for _ in range(200):
             post = PostFactory()
             post.save()

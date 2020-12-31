@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <v-app>
     <Nav />
-    <Nuxt />
-  </div>
+    <v-main>
+      <Nuxt :key="$route.fullPath" />
+    </v-main>
+  </v-app>
 </template>
 
 <style>

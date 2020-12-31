@@ -1,11 +1,11 @@
 <template>
-  <div class="my-4">
-    <div class="p-8 bg-gray-300 mx-4">
-      <div class="text-2xl">{{ post.title }}</div>
-      <div>{{ post.body }}</div>
+  <v-card class="my-4 mx-2">
+    <v-card-title class="text-2xl">{{ post.title }}</v-card-title>
+    <v-card-text>
+      {{ post.body }}
       <div class="text-gray-700">{{ post.created_on | formatDate }}</div>
-    </div>
-  </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

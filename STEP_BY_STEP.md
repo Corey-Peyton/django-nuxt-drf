@@ -551,18 +551,19 @@ A quick note about working with VSCode, docker and Python/Django. I typically in
 
 ## NuxtJS Project Initialization
 
-Here's a high-leve overview of what we will do in this section:
+Here's a high-level overview of what we will do in this section:
 
 [x] Generate a NuxtJS project using `create-nuxt-app`
 [x] Create some backend API resources to play use with our Nuxt SSR app
 [x] Create corresponding pages and components in our Nuxt app that will help us first list blog posts and display individual blog posts.
 [x] Configure NGINX in local development to resolve CORS issues.
 [x] Generate fake blog posts with faker
-[ ] Create authentication components in Vue.
+[o] Create authentication components in Vue.
 [x] Add 404 page for Nuxt (`layouts/error.vue`)
 [x] Add date formatting filter via plugin
-[ ] Add pagination to Post list
-[ ] Add a form for creating new blog posts
+[x] Add Vuetify (replace TailwindCSS)
+[x] Add pagination to Post list
+[o] Add a form for creating new blog posts
 
 Let's set up a NuxtJS project in a top-level `nuxt` folder.
 

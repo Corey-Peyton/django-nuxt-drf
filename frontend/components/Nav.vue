@@ -1,17 +1,39 @@
 <template>
-  <div class="bg-gray-200 text-center text-2xl py-4">
-    <nav>
-      <ul class="flex justify-center gap-4">
-        <li>
-          <nuxt-link to="/">Home</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to="/posts">Posts</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to="/about">About</nuxt-link>
-        </li>
-      </ul>
-    </nav>
+  <div>
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Django + Nuxt.js Starer Application</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-switch v-model="$vuetify.theme.dark" inset></v-switch>
+    </v-app-bar>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      drawer: null,
+      items: [
+        { title: 'Home', icon: 'mdi-view-dashboard', to: '/' },
+        { title: 'Posts', icon: 'mdi-image', to: '/posts' },
+        { title: 'About', icon: 'mdi-help-box', to: '/about' },
+      ],
+    }
+  },
+}
+</script>
