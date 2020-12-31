@@ -6,8 +6,8 @@
       </div>
 
       <v-text-field
-        outlined
         v-model="search"
+        outlined
         placeholder="Search posts"
       ></v-text-field>
     </div>

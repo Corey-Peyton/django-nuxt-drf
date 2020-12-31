@@ -2,7 +2,7 @@
   <v-app>
     <Nav />
     <v-main>
-      <Nuxt :key="$route.fullPath" />
+      <Nuxt />
     </v-main>
   </v-app>
 </template>
