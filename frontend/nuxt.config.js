@@ -1,3 +1,4 @@
+const axios = require('axios')
 import colors from 'vuetify/es5/util/colors'
 
 export default {
@@ -48,11 +49,27 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/axios
+    '@nuxtjs/sitemap',
     '@nuxtjs/axios',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
+
+  sitemap: {
+    exclude: ['/login'],
+    routes: async () => {
+      const instance = axios.create({
+        baseURL: 'http://backend:8000',
+      })
+      const resp = await instance.get('/api/posts/')
+      // get a count of how many posts there are
+      const limit = resp.data.count
+      // fetch all of the posts for the sitemap by passing the
+      const { data } = await instance.get(`/api/posts/?limit=${limit}`)
+      return data.results.map((post) => `/posts/${post.id}`)
+    },
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
