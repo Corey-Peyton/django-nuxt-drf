@@ -40,8 +40,20 @@ export default {
       this.body = ''
     },
     submit() {
-      // TODO: implement this
-      // console.log('submit')
+      const vm = this
+      const { title, body } = this
+      this.clear()
+      this.$apiCall
+        .$post('/api/posts/', {
+          title,
+          body,
+        })
+        .then((post) => {
+          vm.$router.push(`/posts/${post.id}`)
+        })
+        .catch(() => {
+          alert('there was an error')
+        })
     },
   },
 }
