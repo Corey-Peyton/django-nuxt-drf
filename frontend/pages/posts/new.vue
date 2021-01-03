@@ -40,7 +40,8 @@ export default {
       this.body = ''
     },
     submit() {
-      console.log('submit')
+      // TODO: implement this
+      // console.log('submit')
     },
   },
 }

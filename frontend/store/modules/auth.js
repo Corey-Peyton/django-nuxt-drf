@@ -15,7 +15,7 @@ const actions = {
   },
 
   async logout({ commit }) {
-    const response = await this.$apiCall.post('/api/logout/')
+    await this.$apiCall.post('/api/logout/')
     commit('logout')
     this.$router.push('/')
   },
