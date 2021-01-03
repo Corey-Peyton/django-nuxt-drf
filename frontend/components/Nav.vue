@@ -20,7 +20,12 @@
       <v-spacer></v-spacer>
       <v-switch v-model="$vuetify.theme.dark" hide-details inset></v-switch>
       <v-spacer></v-spacer>
-      <v-btn @click="$store.dispatch('auth/logout')">Logout</v-btn>
+      <v-btn
+        v-if="$store.getters['auth/getAuthenticated'] === 'success'"
+        @click="$store.dispatch('auth/logout')"
+        >Logout</v-btn
+      >
+      <v-btn v-else to="/login">Login</v-btn>
     </v-app-bar>
   </div>
 </template>

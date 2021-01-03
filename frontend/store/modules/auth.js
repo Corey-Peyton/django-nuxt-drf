@@ -14,10 +14,10 @@ const actions = {
     })
   },
 
-  logout({ commit }) {
-    this.$apiCall.$post('/api/logout/').then((resp) => {
-      commit('logout', resp)
-    })
+  async logout({ commit }) {
+    const response = await this.$apiCall.post('/api/logout/')
+    commit('logout')
+    this.$router.push('/')
   },
 }
 
@@ -25,7 +25,7 @@ const mutations = {
   authSuccess: (state, payload) => {
     state.authenticated = 'success'
   },
-  logout: (state, payload) => {
+  logout: (state) => {
     state.authenticated = ''
   },
 }

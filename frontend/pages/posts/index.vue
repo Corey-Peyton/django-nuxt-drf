@@ -2,7 +2,7 @@
   <div class="my-4 mx-2">
     <div>
       <div class="my-2">
-        <v-btn color="primary">New Post</v-btn>
+        <v-btn color="primary" to="/posts/new">New Post</v-btn>
       </div>
 
       <v-text-field
@@ -53,6 +53,7 @@ export default {
       this.$store.dispatch('posts/setPage', v)
     },
   },
+  middleware: 'authenticationMiddleware',
 }
 </script>
 
