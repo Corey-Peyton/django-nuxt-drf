@@ -8,6 +8,7 @@
           </div>
           <v-form>
             <v-text-field
+              id="email"
               v-model="email"
               class="my-4"
               name="login"
@@ -34,7 +35,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn block color="primary" :loading="loading" @click="login"
+          <v-btn
+            id="login"
+            block
+            color="primary"
+            :loading="loading"
+            @click="login"
             >Login</v-btn
           >
         </v-card-actions>
