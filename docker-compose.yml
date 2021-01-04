@@ -18,17 +18,14 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    command:
-      - "watchmedo"
-      - "auto-restart"
-      - "--directory=./"
-      - "--pattern=*.py"
-      - "--recursive"
-      - "--"
-      - "python3"
-      - "manage.py"
-      - "runserver_plus"
-      - "0.0.0.0:8000"
+    command: >
+      bash -c "python3 manage.py seed_data && \
+              watchmedo auto-restart \
+              --directory=./ \
+              --pattern=*.py \
+              --recursive \
+              -- \
+              python3 manage.py runserver_plus 0.0.0.0:8000"
     volumes:
       - ./backend:/code
     networks:

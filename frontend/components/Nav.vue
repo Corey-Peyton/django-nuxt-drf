@@ -16,7 +16,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Django + Nuxt.js Starer Application</v-toolbar-title>
+      <v-toolbar-title>Django + Nuxt.js Starter Application</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-switch v-model="$vuetify.theme.dark" hide-details inset></v-switch>
       <v-spacer></v-spacer>

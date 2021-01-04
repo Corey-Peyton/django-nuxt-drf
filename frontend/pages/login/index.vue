@@ -55,7 +55,7 @@ export default {
     return {
       loading: false,
       email: process.env.NODE_ENV === 'production' ? '' : 'admin@company.com',
-      password: process.env.NODE_ENV === 'production' ? '' : 'qwer1234',
+      password: process.env.NODE_ENV === 'production' ? '' : 'password',
       hidePassword: true,
       error: false,
       showResult: false,
