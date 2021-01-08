@@ -1,6 +1,6 @@
 # https://jonathanmh.com/deploying-a-nuxt-js-app-with-docker/
 
-FROM node:11.13.0-alpine
+FROM node:10.23.0
 
 # create destination directory
 RUN mkdir -p /usr/src/nuxt-app
