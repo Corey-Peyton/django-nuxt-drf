@@ -7,6 +7,11 @@ if [[ -z "${DOCKER_HOST}" ]]; then
   exit 1;
 fi
 
+if [[ -z "${BROWSER_BASE_URL}" ]]; then
+  echo "BROWSER_BASE_URL not set, exiting."
+  exit 1;
+fi
+
 
 RED='\033[0;31m'
 NC='\033[0m'
@@ -41,6 +46,7 @@ docker build \
 echo "Building and tagging nuxt container"
 
 docker build \
+    --build-arg BROWSER_BASE_URL=${BROWSER_BASE_URL} \
     -t $REGISTRY/nuxt:$VERSION \
     -f frontend/Dockerfile.prod \
     ./frontend/
