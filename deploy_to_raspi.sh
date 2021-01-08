@@ -38,11 +38,11 @@ docker build \
     -f nginx/prod/Dockerfile \
     .
 
-echo "Building and tagging nginx container"
+echo "Building and tagging nuxt container"
 
 docker build \
     -t $REGISTRY/nuxt:$VERSION \
-    -f frontend/prod/Dockerfile \
+    -f frontend/Dockerfile.prod \
     .
 
 export CI_REGISTRY_IMAGE=$REGISTRY
