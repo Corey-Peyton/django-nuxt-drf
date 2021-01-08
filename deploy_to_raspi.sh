@@ -36,14 +36,14 @@ echo "Building and tagging nginx container"
 docker build \
     -t $REGISTRY/nginx:$VERSION \
     -f nginx/prod/Dockerfile \
-    .
+    ./nginx/
 
 echo "Building and tagging nuxt container"
 
 docker build \
     -t $REGISTRY/nuxt:$VERSION \
     -f frontend/Dockerfile.prod \
-    .
+    ./frontend/
 
 export CI_REGISTRY_IMAGE=$REGISTRY
 export CI_COMMIT_SHORT_SHA=$VERSION
