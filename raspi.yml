@@ -9,7 +9,7 @@ services:
     networks:
       - main
     env_file:
-      - .env
+      - .env.prod
     volumes:
       - pgdata:/var/lib/postgresql/data
 
