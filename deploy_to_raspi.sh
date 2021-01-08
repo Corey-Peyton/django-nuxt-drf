@@ -60,4 +60,4 @@ if [[ -z "${POSTGRES_PASSWORD}" ]]; then
   echo "WARNING: ${RED}POSTGRES_PASSWORD not set, exiting.${NC}"
 fi
 
-docker stack deploy -c raspi.yml form13-stack
+docker stack deploy -c raspi.yml app-stack
