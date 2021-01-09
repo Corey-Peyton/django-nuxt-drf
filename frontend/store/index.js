@@ -31,7 +31,6 @@
 //     // modules: {
 //     //   posts,
 //     //   auth,
-//     //   // TODO: add these later
 //     //   user,
 //     //   // core,
 //     // },
