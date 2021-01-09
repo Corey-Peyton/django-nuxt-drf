@@ -795,6 +795,20 @@ The following works:
 
 ## Some interesting errors I encountered
 
+### store
+
+> Your state value should always be a function to avoid unwanted shared state on the server side.
+
+I didn't pay attention to this and had an unwanted consequence of having the auth state for one user persist for other users. If one user logged in, any user is "authenticated" from the perspective of Vuex (these users would still be unable to make API requests). This bug only showed up when using Nuxt in production. Locally, this didn't seem to be an issue; logging in in two different browser windows didn't seem to share the state. This caused a lot of confusion.
+
+Here's another important point:
+
+> Using factory function for a state is a nuxt.js feature. It is used in the SSR mode to create a new state for each client. But for getters it doesn't make sense, because these are pure functions of the state. getters should be a plain object:
+
+From [https://stackoverflow.com/questions/57074134/understanding-state-and-getters-in-nuxt-js-getters-wont-working](https://stackoverflow.com/questions/57074134/understanding-state-and-getters-in-nuxt-js-getters-wont-working)
+
+Nuxt Vuex module mode vs "export default" mode?
+
 > Converting circular structure to JSON --> starting at object with constructor 'ClientRequest' | property 'socket' -> object with constructor 'Socket' --- property '_httpMessage' closes the circle
 
 This was caused by having `$axios.get` in `asyncData`. The correct syntax is `$axios.$get`.

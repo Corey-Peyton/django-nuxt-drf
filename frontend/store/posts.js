@@ -1,12 +1,14 @@
-const state = {
+/* eslint-disable no-unused-vars */
+
+export const state = () => ({
   posts: [],
   count: null,
   search: '',
   paginationLimit: 10,
   currentPage: 1,
-}
+})
 
-const getters = {
+export const getters = {
   getPosts: (s) => s.posts,
   getCount: (s) => s.count,
   getSearch: (s) => s.search,
@@ -20,7 +22,7 @@ const getters = {
   },
 }
 
-const actions = {
+export const actions = {
   setPage({ commit, dispatch }, payload) {
     commit('SET_PAGE', payload)
     dispatch('fetchData')
@@ -33,7 +35,7 @@ const actions = {
   },
 }
 
-const mutations = {
+export const mutations = {
   SET_POSTS: (state, payload) => {
     state.posts = payload.results
     state.count = payload.count
@@ -50,12 +52,4 @@ const mutations = {
       state.search = payload.search
     }
   },
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
 }

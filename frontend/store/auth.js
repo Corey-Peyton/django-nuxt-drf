@@ -1,12 +1,14 @@
-const state = {
-  authenticated: '',
-}
+/* eslint-disable no-unused-vars */
 
-const getters = {
+export const state = () => ({
+  authenticated: '',
+})
+
+export const getters = {
   getAuthenticated: (s) => s.authenticated,
 }
 
-const actions = {
+export const actions = {
   login({ commit, dispatch }, payload) {
     this.$apiCall.$post('/api/login/', payload).then((resp) => {
       commit('authSuccess', resp)
@@ -21,19 +23,11 @@ const actions = {
   },
 }
 
-const mutations = {
+export const mutations = {
   authSuccess: (state, payload) => {
     state.authenticated = 'success'
   },
   logout: (state) => {
     state.authenticated = ''
   },
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
 }

@@ -1,14 +1,14 @@
-const state = {
+export const state = () => ({
   email: null,
   is_staff: null,
   is_superuser: null,
-}
+})
 
-const getters = {
+export const getters = {
   getAccountStatus: (s) => s.email,
 }
 
-const actions = {
+export const actions = {
   fetchData({ commit }) {
     this.$apiCall
       .get('/api/account/')
@@ -19,18 +19,8 @@ const actions = {
   },
 }
 
-const mutations = {
+export const mutations = {
   setAccount: (state, payload) => {
-    // eslint-disable-next-line
-    // console.log(payload)
     state.email = payload.email
   },
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
 }
